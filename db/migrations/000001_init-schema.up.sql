@@ -9,15 +9,15 @@ CREATE TABLE "Accounts" (
 
 CREATE TABLE "Entries" (
   "Id" bigserial PRIMARY KEY,
-  "accountId" bigint,
+  "accountId" bigint NOT NULL,
   "amount" bigint NOT NULL,
   "creationTime" timestamptz NOT NULL DEFAULT 'now()'
 );
 
 CREATE TABLE "Transfers" (
   "Id" bigserial PRIMARY KEY,
-  "senderId" bigint,
-  "recipientId" bigint,
+  "senderId" bigint NOT NULL,
+  "recipientId" bigint NOT NULL,
   "amount" bigint NOT NULL,
   "creationTime" timestamptz NOT NULL DEFAULT 'now()'
 );

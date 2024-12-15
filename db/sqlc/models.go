@@ -19,16 +19,16 @@ type Accounts struct {
 }
 
 type Entries struct {
-	Id           int64         `json:"Id"`
-	AccountId    sql.NullInt64 `json:"accountId"`
-	Amount       int64         `json:"amount"`
-	CreationTime time.Time     `json:"creationTime"`
+	Id           int64     `json:"Id"`
+	AccountId    int64     `json:"accountId"`
+	Amount       int64     `json:"amount"`
+	CreationTime time.Time `json:"creationTime"`
 }
 
 type Transfers struct {
-	Id           int64         `json:"Id"`
-	SenderId     sql.NullInt64 `json:"senderId"`
-	RecipientId  sql.NullInt64 `json:"recipientId"`
-	Amount       int64         `json:"amount"`
-	CreationTime time.Time     `json:"creationTime"`
+	Id           int64     `json:"Id"`
+	SenderId     int64     `json:"senderId"`
+	RecipientId  int64     `json:"recipientId"`
+	Amount       int64     `json:"amount"`
+	CreationTime time.Time `json:"creationTime"`
 }

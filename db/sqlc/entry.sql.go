@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createEntry = `-- name: CreateEntry :one
@@ -20,8 +19,8 @@ INSERT INTO "Entries"(
 `
 
 type CreateEntryParams struct {
-	AccountId sql.NullInt64 `json:"accountId"`
-	Amount    int64         `json:"amount"`
+	AccountId int64 `json:"accountId"`
+	Amount    int64 `json:"amount"`
 }
 
 func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entries, error) {

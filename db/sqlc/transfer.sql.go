@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createTransfer = `-- name: CreateTransfer :one
@@ -21,9 +20,9 @@ INSERT INTO "Transfers"(
 `
 
 type CreateTransferParams struct {
-	SenderId    sql.NullInt64 `json:"senderId"`
-	RecipientId sql.NullInt64 `json:"recipientId"`
-	Amount      int64         `json:"amount"`
+	SenderId    int64 `json:"senderId"`
+	RecipientId int64 `json:"recipientId"`
+	Amount      int64 `json:"amount"`
 }
 
 func (q *Queries) CreateTransfer(ctx context.Context, arg CreateTransferParams) (Transfers, error) {
