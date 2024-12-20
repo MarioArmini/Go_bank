@@ -2,9 +2,10 @@
 INSERT INTO "Accounts" (
     owner,
     balance,
-    currency
+    currency,
+    "interestRate"
 ) VALUES (
-    $1, $2, $3
+    $1, $2, $3, $4
 ) RETURNING *;
 
 -- name: GetAccount :one
@@ -25,3 +26,7 @@ RETURNING *;
 
 -- name: DeleteAccount :exec
 DELETE FROM "Accounts" WHERE "Id" = $1;
+
+-- name: GetBalance :one
+SELECT balance FROM "Accounts"
+WHERE "Id" = $1;

@@ -16,6 +16,7 @@ type Accounts struct {
 	Currency     string        `json:"currency"`
 	CreationTime time.Time     `json:"creationTime"`
 	CountryCode  sql.NullInt32 `json:"countryCode"`
+	InterestRate string        `json:"interestRate"`
 }
 
 type Entries struct {

@@ -4,7 +4,8 @@ CREATE TABLE "Accounts" (
   "balance" bigint NOT NULL,
   "currency" varchar NOT NULL,
   "creationTime" timestamptz NOT NULL DEFAULT 'now()',
-  "countryCode" int
+  "countryCode" int,
+  "interestRate" DECIMAL(5, 2) NOT NULL DEFAULT 0.05
 );
 
 CREATE TABLE "Entries" (

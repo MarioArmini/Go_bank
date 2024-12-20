@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"go_bank/utils"
 	"testing"
 	"time"
 
@@ -10,11 +11,12 @@ import (
 )
 
 func newAccount(t *testing.T) Accounts {
-	arg := CreateAccountParams{
-		Owner:    "John",
-		Balance:  0,
-		Currency: "EUR",
-	}
+	arg := CreateAccountParams{}
+
+	arg.Owner = utils.GetRandomString(5)
+	arg.Balance = utils.GetRandomInt()
+	arg.Currency = utils.GetRandomCurrency()
+	arg.InterestRate = utils.GetRandomInterestRate(0, 0.4)
 
 	account, err := testQueries.CreateAccount(context.Background(), arg)
 	require.NoError(t, err)
@@ -26,6 +28,8 @@ func newAccount(t *testing.T) Accounts {
 
 	require.NotZero(t, account.Id)
 	require.NotZero(t, account.CreationTime)
+
+	require.Equal(t, account.InterestRate, arg.InterestRate)
 
 	return account
 }
@@ -90,4 +94,12 @@ func TestGetAllAccounts(t *testing.T) {
 	for _, account := range accounts {
 		require.NotEmpty(t, account)
 	}
+}
+
+func TestGetBalance(t *testing.T) {
+	account := newAccount(t)
+
+	balance, err := testQueries.GetBalance(context.Background(), account.Id)
+	require.NoError(t, err)
+	require.NotEmpty(t, balance)
 }
