@@ -77,10 +77,53 @@ func (store *Store) CreateTransferTx(ctx context.Context, arg TransferTxParams) 
 			return err
 		}
 
-		// TODO: update balances
+		// this check is done to avoid deadlocks
+		if arg.SenderId < arg.RecipientId {
+			result.Sender, result.Recipient, err = transferMoney(ctx, q, arg.SenderId, -arg.Amount, arg.RecipientId, arg.Amount)
+		} else {
+			result.Recipient, result.Sender, err = transferMoney(ctx, q, arg.RecipientId, arg.Amount, arg.SenderId, -arg.Amount)
+		}
+
+		if err != nil {
+			return err
+		}
 
 		return nil
 	})
 
 	return result, err
+}
+
+func transferMoney(
+	ctx context.Context,
+	q *Queries,
+	accountId1 int64,
+	amount1 int64,
+	accountId2 int64,
+	amount2 int64,
+) (account1 Accounts, account2 Accounts, err error) {
+	account1, err = q.GetAccountForUpdate(ctx, accountId1)
+	if err != nil {
+		return
+	}
+
+	account1, err = q.UpdateAccount(ctx, UpdateAccountParams{
+		Id:      accountId1,
+		Balance: account1.Balance + amount1,
+	})
+	if err != nil {
+		return
+	}
+
+	account2, err = q.GetAccountForUpdate(ctx, accountId2)
+	if err != nil {
+		return
+	}
+
+	account2, err = q.UpdateAccount(ctx, UpdateAccountParams{
+		Id:      accountId2,
+		Balance: account2.Balance + amount2,
+	})
+
+	return
 }
